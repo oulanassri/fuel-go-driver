@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fuel_go_driver/app/home/home_controller.dart';
 
 import '../../constants.dart';
 class StartJob extends StatelessWidget {
-  const StartJob({Key? key}) : super(key: key);
+  HomeController controller;
+   StartJob({Key? key,required this.controller}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,8 @@ class StartJob extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 100),
           child: MaterialButton(
             onPressed: () {
-
+ controller.updateDriverStatus(
+    "pending");
             },
             height: 50,
 

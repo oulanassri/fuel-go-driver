@@ -13,28 +13,30 @@ class PendingOrders extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(child: Padding(
-      padding: EdgeInsets.symmetric(horizontal: defaultPadding ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: defaultPadding,
-        children: [
-          SizedBox(
-            height: defaultPadding * 2,
-          ),
-          Text(
-            "طلبات قيد الانتظار",
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-          HousePendingOrderWidget(),
-          CarPendingOrderWidget(),
-          HousePendingOrderWidget(),
-          CarPendingOrderWidget(),
-          SizedBox(
-            height: defaultPadding * 2,
-          ),
-        ],
+    return SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: defaultPadding,
+          children: [
+            SizedBox(
+              height: defaultPadding * 2,
+            ),
+            Text(
+              "طلبات قيد الانتظار",
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            HousePendingOrderWidget(controller: controller,),
+            CarPendingOrderWidget(controller: controller,),
+            HousePendingOrderWidget(controller: controller,),
+            CarPendingOrderWidget(controller: controller,),
+            SizedBox(
+              height: defaultPadding * 2,
+            ),
+          ],
+        ),
       ),
-    ),);
+    );
   }
 }

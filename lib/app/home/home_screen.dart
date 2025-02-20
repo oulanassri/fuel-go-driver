@@ -25,40 +25,28 @@ class HomeScreen extends GetView<HomeController> {
       //extendBody:true ,
       //extendBodyBehindAppBar: true,
       drawer: CustomNavigationDrawer(),
-      appBar: /*CustomAppBar(title: 'الواجهة الرئيسية',) */
-          AppBar(
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            //  gradient: gradientColorBg,
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(20),
-              bottomRight: Radius.circular(20),
-            ),
-          ),
-        ),
-        //  backgroundColor: secondaryColor,
-        title: Obx(
-          () => Text(
-            title.value,
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-        ),
-        centerTitle: true,
+      appBar: CustomAppBar(
+        title: 'الواجهة الرئيسية',
       ),
-      body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        decoration: BoxDecoration(
-        //  gradient: gradientColorBg,
-        ),
-        child: controller.driverStatus == "offline"
-            ? StartJob()
-            : (controller.driverStatus == "pending"
-                ? PendingOrders(
+
+      body: Obx(() => Container(
+            height: double.infinity,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              gradient: gradientColorBg,
+            ),
+            child: controller.driverStatus.value == "offline"
+                ? StartJob(
                     controller: controller,
                   )
-                : ActiveOrder()),
-      ),
+                : (controller.driverStatus.value == "pending"
+                    ? PendingOrders(
+                        controller: controller,
+                      )
+                    : ActiveOrder(
+                        controller: controller,
+                      )),
+          )),
     );
   }
 }

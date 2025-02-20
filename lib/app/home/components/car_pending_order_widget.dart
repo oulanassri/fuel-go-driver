@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:fuel_go_driver/app/home/home_controller.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 
 import '../../../routes/app_routes.dart';
 import '../../auth/components/custom_material_button.dart';
+import '../../common/common_material_button.dart';
 import '../../constants.dart';
 
 class CarPendingOrderWidget extends StatelessWidget {
-  CarPendingOrderWidget({Key? key}) : super(key: key);
+  HomeController controller;
+  CarPendingOrderWidget({Key? key,required this.controller}) : super(key: key);
   RxBool open = false.obs;
 
   @override
@@ -117,12 +120,12 @@ class CarPendingOrderWidget extends StatelessWidget {
                             )
                           : Container(),
                       open.value == true
-                          ? CustomMaterialButton(
-                              route: Routes.HOME,
-                              text: "تأكيد الطّلب",
-                              buttonColor: secondaryColor,
-                              textColor: white,
-                            )
+                          ? CommonMaterialButton(
+                        title: "قبول الطّلب",
+                        function: () {
+                          controller.updateDriverStatus("ontheway");
+                        },
+                      )
                           : Container(),
                       Center(
                         child: Icon(

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
 import '../auth/components/custom_text_form_field.dart';
+import '../common/custom_app_bar.dart';
 import '../common/custom_material_button.dart';
 import '../common/custom_text_form_field1.dart';
 import '../common/navigation_drawer.dart';
@@ -19,14 +20,11 @@ class LorryScreen extends GetView<LorryController> {
 
     return Scaffold(
       drawer: CustomNavigationDrawer(),
-      appBar: AppBar(
-        title: Text(
-          "شاحنة الوقود",
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
-        centerTitle: true,
+      appBar: CustomAppBar(
+        title: 'شاحنة الوقود',
       ),
       body: Container(
+          padding: EdgeInsets.all(defaultPadding),
           width: double.infinity,
           decoration: BoxDecoration(
             gradient: gradientColorBg,
@@ -37,8 +35,18 @@ class LorryScreen extends GetView<LorryController> {
               SizedBox(
                 height: defaultPadding,
               ),
-              CargoTankWidget(),
               Row(
+                children: [
+                  Image.asset(
+                    "assets/images/Truck_FuelGo.png",
+                    fit: BoxFit.contain,
+                    width: 200,
+                    height: 200,
+                  ),
+                  CargoTankWidget()
+                ],
+              ),
+              Column(spacing: defaultPadding,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Padding(
@@ -68,8 +76,7 @@ class LorryScreen extends GetView<LorryController> {
                                 ),
                                 CustomTextFormField1(
                                   hintText: 'محطة الوقود',
-                                  controller:
-                                      controller.fuelStationController,
+                                  controller: controller.fuelStationController,
                                 ),
                               ],
                             ),
@@ -98,19 +105,17 @@ class LorryScreen extends GetView<LorryController> {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    width: defaultPadding,
-                  ),
+
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 25),
                     child: MaterialButton(
                       onPressed: () {
-                        Get.defaultDialog( cancelTextColor: secondaryButton,
+                        Get.defaultDialog(
+                            cancelTextColor: secondaryButton,
                             buttonColor: secondaryButton,
                             title: "إضافة وقود لخزان الشاحنة",
                             textConfirm: "إضافة",
                             textCancel: "إلغاء",
-
                             titleStyle: Theme.of(context).textTheme.labelMedium,
                             content: Column(
                               children: [
@@ -128,8 +133,7 @@ class LorryScreen extends GetView<LorryController> {
                                 ),
                                 CustomTextFormField1(
                                   hintText: 'محطة الوقود',
-                                  controller:
-                                  controller.fuelStationController,
+                                  controller: controller.fuelStationController,
                                 ),
                               ],
                             ),

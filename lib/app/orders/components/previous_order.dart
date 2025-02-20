@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:fuel_go_driver/app/home/components/invoice_table.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
-import '../../../routes/app_routes.dart';
-import '../../auth/components/custom_material_button.dart';
 import '../../common/common_material_button.dart';
 import '../../constants.dart';
-import '../home_controller.dart';
 
-class HousePendingOrderWidget extends StatelessWidget {
-  HomeController controller;
-  HousePendingOrderWidget({
-    Key? key,required this.controller
-  }) : super(key: key);
+class PreviousOrder extends StatelessWidget {
+  PreviousOrder({Key? key}) : super(key: key);
   RxBool open = false.obs;
 
   @override
@@ -45,6 +41,18 @@ class HousePendingOrderWidget extends StatelessWidget {
                       Text(
                         "تعبئة لمنزل",
                         style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            "رقم الطلب :",
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                          Text(
+                            "   12",
+                            style: Theme.of(context).textTheme.labelSmall,
+                          ),
+                        ],
                       ),
                       Row(
                         children: [
@@ -121,14 +129,7 @@ class HousePendingOrderWidget extends StatelessWidget {
                               ],
                             )
                           : Container(),
-                      open.value == true
-                          ? CommonMaterialButton(
-                              title: "قبول الطّلب",
-                              function: () {
-                                controller.updateDriverStatus("ontheway");
-                              },
-                            )
-                          : Container(),
+                      open.value == true ? InvoiceTable() : Container(),
                       Center(
                         child: Icon(
                           open.value == false

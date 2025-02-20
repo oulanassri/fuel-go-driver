@@ -79,9 +79,9 @@ class CustomNavigationDrawer extends StatelessWidget {
       decoration: BoxDecoration(color: primaryColor),
       accountName: Text("username"),
       accountEmail: Text("email"),
-      currentAccountPicture: CircleAvatar(
-        backgroundColor: white,
-      ),
+      // currentAccountPicture: CircleAvatar(
+      //   backgroundColor: white,
+      // ),
       currentAccountPictureSize: Size.square(72),
       otherAccountsPicturesSize: Size.square(50),
     );
