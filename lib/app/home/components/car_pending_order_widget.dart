@@ -57,19 +57,10 @@ class CarPendingOrderWidget extends StatelessWidget {
                         ],
                       ),
                       open.value == true
-                          ? Row(
-                              children: [
-                                Text(
-                                  "موقع السيّارة :  ",
-                                  style:
-                                      Theme.of(context).textTheme.titleMedium,
-                                ),
-                                Text(
-                                  "مدينة + الحيّ + تفاصيل عن الموقع",
-                                  style: Theme.of(context).textTheme.labelSmall,
-                                ),
-                              ],
-                            )
+                          ? Text("الموقع : مدينة + الحيّ + تفاصيل عن الموقع",
+                        style: Theme.of(context).textTheme.labelSmall,
+                        maxLines: 3,
+                      )
                           : Container(),
                       open.value == true
                           ? Row(

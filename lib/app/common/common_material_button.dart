@@ -9,13 +9,12 @@ class CommonMaterialButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 100),
+      padding: EdgeInsets.symmetric(horizontal: 2),
       child: MaterialButton(
         onPressed:
         function
         ,
-        height: 50,
-        // margin: EdgeInsets.symmetric(horizontal: 50),
+
         color: secondaryColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50),
@@ -27,7 +26,7 @@ class CommonMaterialButton extends StatelessWidget {
             title,
             style: TextStyle(
                 color: secondaryText,
-                fontWeight: FontWeight.bold),
+                fontWeight: FontWeight.bold,fontSize: 12,fontFamily: "Tajawal"),
           ),
         ),
       ),

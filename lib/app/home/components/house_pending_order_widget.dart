@@ -9,9 +9,9 @@ import '../home_controller.dart';
 
 class HousePendingOrderWidget extends StatelessWidget {
   HomeController controller;
-  HousePendingOrderWidget({
-    Key? key,required this.controller
-  }) : super(key: key);
+
+  HousePendingOrderWidget({Key? key, required this.controller})
+      : super(key: key);
   RxBool open = false.obs;
 
   @override
@@ -59,18 +59,10 @@ class HousePendingOrderWidget extends StatelessWidget {
                         ],
                       ),
                       open.value == true
-                          ? Row(
-                              children: [
-                                Text(
-                                  "موقع المنزل :   ",
-                                  style:
-                                      Theme.of(context).textTheme.titleMedium,
-                                ),
-                                Text(
-                                  "مدينة + الحيّ + تفاصيل عن الموقع",
-                                  style: Theme.of(context).textTheme.labelSmall,
-                                ),
-                              ],
+                          ? Text(
+                              "الموقع : مدينة + الحيّ + تفاصيل عن الموقع",
+                              style: Theme.of(context).textTheme.labelSmall,
+                              maxLines: 3,
                             )
                           : Container(),
                       open.value == true

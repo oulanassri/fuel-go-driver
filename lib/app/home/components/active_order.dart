@@ -7,12 +7,16 @@ import 'package:get/get_core/src/get_main.dart';
 import '../../../routes/app_routes.dart';
 import '../../auth/components/custom_material_button.dart';
 import '../../common/common_material_button.dart';
+import '../../common/common_material_unclick_able_button.dart';
 import '../../common/custom_text_form_field1.dart';
 import '../../constants.dart';
 import 'invoice_table.dart';
 
 class ActiveOrder extends StatelessWidget {
   HomeController controller;
+  RxString activeOrderStatus =
+      "ontheway" //ontheway  arrivedlocation  startservicing
+          .obs;
 
   ActiveOrder({Key? key, required this.controller}) : super(key: key);
 
@@ -82,17 +86,10 @@ class ActiveOrder extends StatelessWidget {
                             ),
                           ],
                         ),
-                        Row(
-                          children: [
-                            Text(
-                              "موقع المنزل :   ",
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                            Text(
-                              "مدينة + الحيّ + تفاصيل عن الموقع",
-                              style: Theme.of(context).textTheme.labelSmall,
-                            ),
-                          ],
+                        Text(
+                          "الموقع : مدينة + الحيّ + تفاصيل عن الموقع",
+                          style: Theme.of(context).textTheme.labelSmall,
+                          maxLines: 3,
                         ),
                         Row(
                           children: [
@@ -134,65 +131,136 @@ class ActiveOrder extends StatelessWidget {
                             ),
                           ],
                         ),
-                        CommonMaterialButton(
-                          title: "الوصول إلى الموقع",
-                          function: () {
-                            Get.defaultDialog(
-                                cancelTextColor: secondaryButton,
-                                buttonColor: secondaryButton,
-                                title: "أدخل الرّمز للمصادقة",
-                                textConfirm: "تأكيد",
-                                textCancel: "إلغاء",
-                                titleStyle:
-                                    Theme.of(context).textTheme.labelMedium,
-                                content: Column(
-                                  children: [
-                                    CustomTextFormField1(
-                                      hintText: 'الرّمز',
-                                      controller: controller.codeController,
-                                    ),
-                                  ],
-                                ),
-                                onConfirm: () {
-                                  Get.back();
-                                  Get.defaultDialog(
-                                      cancelTextColor: secondaryButton,
-                                      buttonColor: secondaryButton,
-                                      title: "أدخل كميّة التّعبئة",
-                                      textConfirm: "تأكيد ",
-                                      textCancel: "إلغاء",
-                                      titleStyle: Theme.of(context)
-                                          .textTheme
-                                          .labelMedium,
-                                      content: Column(
-                                        children: [
-                                          CustomTextFormField1(
-                                            hintText: 'كميّة التّعبئة',
-                                            controller: controller
-                                                .fuelQuantityController,
-                                          ),
-                                        ],
+                        Center(
+                          child: Obx(
+                            () => activeOrderStatus.value == "ontheway"
+                                ? Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      CommonMaterialButton(
+                                        title: "الوصول إلى الموقع",
+                                        function: () {
+                                          activeOrderStatus.value =
+                                              "arrivedlocation";
+                                          print(activeOrderStatus.value);
+                                        },
                                       ),
-                                      onConfirm: () {
-                                        Get.back();
+                                      CommonMaterialUnclickAbleButton(
+                                        title: 'بدء عملية التعبئة',
+                                      ),
+                                      CommonMaterialUnclickAbleButton(
+                                        title: 'إنهاء الطلب',
+                                      ),
+                                    ],
+                                  )
+                                : Container(),
+                          ),
+                        ),
+                        Center(
+                          child: Obx(
+                              () => activeOrderStatus.value == "arrivedlocation"
+                                  ? Row( mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        CommonMaterialUnclickAbleButton(
+                                          title: 'الوصول إلى الموقع',
+                                        ),
+                                        CommonMaterialButton(
+                                          title: "بدء عملية التعبئة",
+                                          function: () {
+                                            Get.defaultDialog(
+                                                cancelTextColor:
+                                                    secondaryButton,
+                                                buttonColor: secondaryButton,
+                                                title: "أدخل الرّمز للمصادقة",
+                                                textConfirm: "تأكيد",
+                                                textCancel: "إلغاء",
+                                                titleStyle: Theme.of(context)
+                                                    .textTheme
+                                                    .labelMedium,
+                                                content: Column(
+                                                  children: [
+                                                    CustomTextFormField1(
+                                                      hintText: 'الرّمز',
+                                                      controller: controller
+                                                          .codeController,
+                                                    ),
+                                                  ],
+                                                ),
+                                                onConfirm: () {
+                                                  Get.back();
+                                                  activeOrderStatus.value =
+                                                      "startservicing";
+                                                });
+                                          },
+                                        ),
+                                        CommonMaterialUnclickAbleButton(
+                                          title: 'إنهاء الطلب',
+                                        ),
+                                      ],
+                                    )
+                                  : Container()),
+                        ),
+                        Center(
+                          child: Obx(() => activeOrderStatus.value ==
+                                  "startservicing"
+                              ? Row( mainAxisAlignment:
+                          MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    CommonMaterialUnclickAbleButton(
+                                      title: 'الوصول إلى الموقع',
+                                    ),
+                                    CommonMaterialUnclickAbleButton(
+                                      title: 'بدء عملية التعبئة',
+                                    ),
+                                    CommonMaterialButton(
+                                      title: "إنهاء الطلب",
+                                      function: () {
                                         Get.defaultDialog(
                                             cancelTextColor: secondaryButton,
                                             buttonColor: secondaryButton,
-                                            title: "الفاتورة",
-                                            textConfirm: "تم إنجاز المهمة",
+                                            title: "أدخل كميّة التّعبئة",
+                                            textConfirm: "تأكيد ",
                                             textCancel: "إلغاء",
                                             titleStyle: Theme.of(context)
                                                 .textTheme
                                                 .labelMedium,
-                                            content: InvoiceTable(),
+                                            content: Column(
+                                              children: [
+                                                CustomTextFormField1(
+                                                  hintText: 'كميّة التّعبئة',
+                                                  controller: controller
+                                                      .fuelQuantityController,
+                                                ),
+                                              ],
+                                            ),
                                             onConfirm: () {
                                               Get.back();
-                                              controller.updateDriverStatus(
-                                                  "pending");
+                                              Get.defaultDialog(
+                                                  cancelTextColor:
+                                                      secondaryButton,
+                                                  buttonColor: secondaryButton,
+                                                  title: "الفاتورة",
+                                                  textConfirm:
+                                                      "تم إنجاز المهمة",
+                                                  textCancel: "إلغاء",
+                                                  titleStyle: Theme.of(context)
+                                                      .textTheme
+                                                      .labelMedium,
+                                                  content: InvoiceTable(),
+                                                  onConfirm: () {
+                                                    Get.back();
+                                                    controller
+                                                        .updateDriverStatus(
+                                                            "pending");
+                                                  });
                                             });
-                                      });
-                                });
-                          },
+                                      },
+                                    ),
+                                  ],
+                                )
+                              : Container()),
                         ),
                       ]),
                 ),

@@ -58,39 +58,42 @@ class ProfileScreen extends GetView<ProfileController> {
                 ],
               ),
             ),
-            CommonMaterialButton(
-              title: 'تغيير كلمة السّر',
-              function: () {
-                Get.defaultDialog(
-                    cancelTextColor: secondaryButton,
-                    buttonColor: secondaryButton,
-                    title: "تغيير كلمة السّر",
-                    textConfirm: "تغيير",
-                    textCancel: "إلغاء",
-                    titleStyle: Theme.of(context).textTheme.labelMedium,
-                    content: Column(
-                      children: [
-                        CustomTextFormField1(
-                          hintText: 'كلمة السّر القديمة',
-                          controller: controller.oldPassword,
-                        ),
-                        CustomTextFormField1(
-                          hintText: 'كلمة السّر الجديدة',
-                          controller: controller.newPassword,
-                        ),
-                        CustomTextFormField1(
-                          hintText: 'كلمة السّر الجديدة مرة أخرى',
-                          controller: controller.renewPassword,
-                        ),
-                      ],
-                    ),
-                    onConfirm: () {
-                      print("confirm");
-                    },
-                    onCancel: () {
-                      print("cancel");
-                    });
-              },
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+              child: CommonMaterialButton(
+                title: 'تغيير كلمة السّر',
+                function: () {
+                  Get.defaultDialog(
+                      cancelTextColor: secondaryButton,
+                      buttonColor: secondaryButton,
+                      title: "تغيير كلمة السّر",
+                      textConfirm: "تغيير",
+                      textCancel: "إلغاء",
+                      titleStyle: Theme.of(context).textTheme.labelMedium,
+                      content: Column(
+                        children: [
+                          CustomTextFormField1(
+                            hintText: 'كلمة السّر القديمة',
+                            controller: controller.oldPassword,
+                          ),
+                          CustomTextFormField1(
+                            hintText: 'كلمة السّر الجديدة',
+                            controller: controller.newPassword,
+                          ),
+                          CustomTextFormField1(
+                            hintText: 'كلمة السّر الجديدة مرة أخرى',
+                            controller: controller.renewPassword,
+                          ),
+                        ],
+                      ),
+                      onConfirm: () {
+                        print("confirm");
+                      },
+                      onCancel: () {
+                        print("cancel");
+                      });
+                },
+              ),
             ),
           ],
         ),

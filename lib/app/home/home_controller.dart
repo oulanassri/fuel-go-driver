@@ -7,7 +7,8 @@ import '../../native_service/get_storage.dart';
 class HomeController extends GetxController {
   late UserStorage storage;
   RxString driverStatus = "offline"
-      .obs; //pending  offline  ontheway  arrivedlocation  startservicing
+      .obs; //pending  offline
+
   TextEditingController codeController = TextEditingController();
   TextEditingController fuelQuantityController = TextEditingController();
   @override
@@ -17,6 +18,9 @@ class HomeController extends GetxController {
   }
 
   void updateDriverStatus(String status) {
+    driverStatus.value = status;
+  }
+  void updateActiveOrderStatus(String status) {
     driverStatus.value = status;
   }
 }
