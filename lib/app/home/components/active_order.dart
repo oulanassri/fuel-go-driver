@@ -10,7 +10,7 @@ import '../../common/common_material_button.dart';
 import '../../common/common_material_unclick_able_button.dart';
 import '../../common/custom_text_form_field1.dart';
 import '../../constants.dart';
-import 'invoice_table.dart';
+import '../../common/invoice_table.dart';
 
 class ActiveOrder extends StatelessWidget {
   HomeController controller;
