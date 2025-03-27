@@ -3,6 +3,7 @@ import 'package:fluttericon/maki_icons.dart';
 import 'package:get/get.dart';
 import 'package:icofont_flutter/icofont_flutter.dart';
 
+import '../../native_service/get_storage.dart';
 import '../../routes/app_routes.dart';
 import '../constants.dart';
 
@@ -21,16 +22,15 @@ class CustomNavigationDrawer extends StatelessWidget {
               color: Colors.grey,
             ),
             buildDrawerItem(
-              icon: Icons.home,
-              text: "الواجهة الرّئيسيّة",
-              onTap: () => navigate(0),
-              tileColor:
-                  Get.currentRoute == Routes.HOME ? secondaryColor : null,
-              textIconColor: Get.currentRoute == Routes.HOME
-                  ? secondaryColor
-                  : Colors.black,context: context
-            ),
-           
+                icon: Icons.home,
+                text: "الواجهة الرّئيسيّة",
+                onTap: () => navigate(0),
+                tileColor:
+                    Get.currentRoute == Routes.HOME ? secondaryColor : null,
+                textIconColor: Get.currentRoute == Routes.HOME
+                    ? secondaryColor
+                    : Colors.black,
+                context: context),
             buildDrawerItem(
                 icon: Maki.fuel,
                 text: "الطّلبات",
@@ -39,7 +39,8 @@ class CustomNavigationDrawer extends StatelessWidget {
                     Get.currentRoute == Routes.ORDERS ? secondaryColor : null,
                 textIconColor: Get.currentRoute == Routes.ORDERS
                     ? secondaryColor
-                    : Colors.black,context: context),
+                    : Colors.black,
+                context: context),
             buildDrawerItem(
                 icon: Icons.person,
                 text: "الملف الشّخصي",
@@ -48,17 +49,18 @@ class CustomNavigationDrawer extends StatelessWidget {
                     Get.currentRoute == Routes.PROFILE ? secondaryColor : null,
                 textIconColor: Get.currentRoute == Routes.PROFILE
                     ? secondaryColor
-                    : Colors.black,context: context),
+                    : Colors.black,
+                context: context),
             buildDrawerItem(
                 icon: IcoFontIcons.searchProperty,
                 text: "شاحنة الوقود",
                 onTap: () => navigate(3),
-                tileColor: Get.currentRoute == Routes.LORRY
-                    ? secondaryColor
-                    : null,
+                tileColor:
+                    Get.currentRoute == Routes.LORRY ? secondaryColor : null,
                 textIconColor: Get.currentRoute == Routes.LORRY
                     ? secondaryColor
-                    : Colors.black,context: context),
+                    : Colors.black,
+                context: context),
             buildDrawerItem(
                 icon: Icons.settings,
                 text: "الإعدادات",
@@ -67,7 +69,16 @@ class CustomNavigationDrawer extends StatelessWidget {
                     Get.currentRoute == Routes.SETTINGS ? secondaryColor : null,
                 textIconColor: Get.currentRoute == Routes.SETTINGS
                     ? secondaryColor
-                    : Colors.black, context: context),
+                    : Colors.black,
+                context: context),
+
+            buildDrawerItem(
+                icon: Icons.logout,
+                text: "تسجيل خروج",
+                onTap: () => navigate(5),
+                tileColor: secondaryColor,
+                textIconColor: secondaryColor,
+                context: context),
           ],
         ),
       ),
@@ -111,15 +122,15 @@ class CustomNavigationDrawer extends StatelessWidget {
       Get.toNamed(Routes.HOME);
     } else if (index == 1) {
       Get.toNamed(Routes.ORDERS);
-    }
-    else if (index == 2) {
+    } else if (index == 2) {
       Get.toNamed(Routes.PROFILE);
-    }
-    else if (index == 3) {
+    } else if (index == 3) {
       Get.toNamed(Routes.LORRY);
-    }
-    else if (index == 4) {
+    } else if (index == 4) {
       Get.toNamed(Routes.SETTINGS);
+    }else if (index == 5) {
+      UserStorage.delete('token');
+      Get.offAndToNamed(Routes.LOGIN);
     }
   }
 }

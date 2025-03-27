@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:fuel_go_driver/app/home/home_controller.dart';
 
 import '../../constants.dart';
+
 class StartJob extends StatelessWidget {
   HomeController controller;
-   StartJob({Key? key,required this.controller}) : super(key: key);
+
+  StartJob({Key? key, required this.controller}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +28,9 @@ class StartJob extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 100),
           child: MaterialButton(
             onPressed: () {
- controller.updateDriverStatus(
-    "pending");
+              controller.startJob();
+/* controller.updateDriverStatus(
+    "pending");*/
             },
             height: 50,
 
@@ -41,16 +44,36 @@ class StartJob extends StatelessWidget {
             child: Center(
               child: Text(
                 "بدء العمل",
-                style: Theme
-                    .of(context)
-                    .textTheme
-                    .bodyMedium,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),
           ),
         ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 100),
+          child: MaterialButton(
+            onPressed: () {
+              controller.getDriverStatus();
+/* controller.updateDriverStatus(
+    "pending");*/
+            },
+            height: 50,
 
-
+            // margin: EdgeInsets.symmetric(horizontal: 50),
+            color: secondaryColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50),
+            ),
+            // decoration: BoxDecoration(
+            // ),
+            child: Center(
+              child: Text(
+                "إنهاء العمل",
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }

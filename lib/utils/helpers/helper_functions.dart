@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/snackbar/snackbar.dart';
+
+import '../../app/constants.dart';
 
 class THelperFunctions {
  /* static Future<dynamic> suggestionAdress(String address) async {
@@ -7,13 +12,28 @@ class THelperFunctions {
     final json = response.data;
     return json;
   }*/
-  static void showSnackBar(String message, BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-          content: Text(
-        message,
-      )),
-    );
+  static void showSnackBar({required String message, required String title}) {
+    Get.snackbar(title, message,
+        snackPosition: SnackPosition.BOTTOM,
+        titleText: Text(
+          title,
+          style: TextStyle().copyWith(
+            fontSize: 18,
+            fontFamily: 'Tajawal',
+            fontWeight: FontWeight.w600,
+            color: white,
+          ),
+        ),
+        messageText: Text(
+          message,
+          style: TextStyle().copyWith(
+            fontSize: 18,
+            fontFamily: 'Tajawal',
+            fontWeight: FontWeight.w600,
+            color: white,
+          ),
+        ),
+        backgroundColor: primaryColor);
   }
 
   static void showAlert(String title, String message, BuildContext context) {

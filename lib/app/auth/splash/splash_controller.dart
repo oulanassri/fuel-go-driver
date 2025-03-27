@@ -6,11 +6,9 @@ import '../../../routes/app_routes.dart';
 
 
 class SplashController extends GetxController {
-  late UserStorage storage;
 
   @override
   void onInit() async {
-    storage = UserStorage();
 
     super.onInit();
   }
@@ -23,17 +21,20 @@ class SplashController extends GetxController {
         const Duration(
           seconds: 3,
         ), () {
-      Get.offAllNamed(
-        Routes.LOGIN,
-      );
+      checkToken();
     });
   }
 
 //maybe for delete
   Future<void> checkToken() async {
-    String? token = await storage.read('token');
+    print('checkToken');
+
+    String? token = UserStorage.read('token');
     print('Here is the token at spalsh $token');
-    if (token != null) {
-    } else {}
+    if (token.isNotEmpty) {
+      Get.offAndToNamed(Routes.HOME);
+    } else {
+      Get.toNamed(Routes.LOGIN);
+    }
   }
 }

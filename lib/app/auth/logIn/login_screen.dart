@@ -14,6 +14,8 @@ class LogInScreen extends GetView<LoginController> {
 
   @override
   Widget build(BuildContext context) {
+    RxBool obscurePassword = true.obs;
+
     Get.put(LoginController());
 
     return Scaffold(
@@ -75,36 +77,78 @@ class LogInScreen extends GetView<LoginController> {
                           child: Column(
                             children: <Widget>[
                               CustomTextFormField(
-                                hintText: "البريد الإلكتروني",
-                                controller: controller.emailController,
+                                hintText: "رقم الهاتف",
+                                controller: controller.phoneController,
                               ),
-                              CustomTextFormField(
-                                hintText: "كلمة السّر",
-                                controller: controller.passwordController,
-                              ),
+                              Obx(() => Container(
+                                padding: EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                        color: Colors.grey.shade200),
+                                  ),
+                                ),
+                                child: TextField(
+                                  obscureText: obscurePassword.value,
+                                  controller:
+                                  controller.passwordController,
+                                  decoration: InputDecoration(
+                                      suffix: InkWell(
+                                        child: Icon(
+                                          obscurePassword.value
+                                              ? Icons.visibility_off
+                                              : Icons.visibility,
+                                          color: primaryColor,
+                                          size: 20,
+                                        ),
+                                        onTap: () {
+                                          obscurePassword.value =
+                                          !(obscurePassword.value);
+
+                                        },
+                                      ),
+                                      label: Text("أدخل كلمة السّر"),
+                                      labelStyle: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium,
+                                      hintText: "كلمة السّر",
+                                      hintStyle:
+                                      TextStyle(color: Colors.grey),
+                                      border: InputBorder.none),
+                                ),
+                              )),
+
                             ],
                           ),
                         )),
-                    SizedBox(
-                      height: 40,
-                    ),
-                    FadeInUp(
-                        duration: Duration(milliseconds: 1500),
-                        child: Text(
-                          "هل نسيت كلمة السّر",
-                          style: TextStyle(color: Colors.grey),
-                        )),
+
                     SizedBox(
                       height: 40,
                     ),
                     FadeInUp(
                       duration: Duration(milliseconds: 1600),
-                      child: CustomMaterialButton(
-                        route: Routes.HOME,
+                      child:Obx(()=>controller.isLoading.value
+                          ? MaterialButton(
+                        onPressed: () {},
+                        height: 50,
+                        // margin: EdgeInsets.symmetric(horizontal: 50),
+                        color: primaryButton,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        // decoration: BoxDecoration(
+                        // ),
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            color: primaryColor,
+                          ),
+                        ),
+                      )
+                          :  CustomMaterialButton(
                         text: "تسجيل دخول",
                         buttonColor: secondaryColor,
-                        textColor: white,
-                      ),
+                        textColor: white, function: () { controller.login(); },
+                      )),
                     ),
                     SizedBox(
                       height: defaultPadding,

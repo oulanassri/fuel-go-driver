@@ -39,7 +39,7 @@ class HomeScreen extends GetView<HomeController> {
                 ? StartJob(
                     controller: controller,
                   )
-                : (controller.driverStatus.value == "pending"
+                : (controller.driverStatus.value == "متاح"//متاح
                     ? PendingOrders(
                         controller: controller,
                       )

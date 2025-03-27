@@ -10,7 +10,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(gradient: gradientColorAppBarBg),
-      child: AppBar(iconTheme: IconThemeData(color: white),
+      child: AppBar(
+        iconTheme: IconThemeData(color: white),
         //  backgroundColor: Colors.grey,
         //Colors.transparent,
         elevation: 0.0,
@@ -20,6 +21,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           style: Theme.of(context).textTheme.headlineSmall,
         ),
         centerTitle: true,
+        actions: [
+          IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.access_time_filled_outlined,
+                color: white,
+              ))
+        ],
         flexibleSpace: Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.only(

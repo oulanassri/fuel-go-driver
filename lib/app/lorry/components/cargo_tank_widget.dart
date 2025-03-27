@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../constants.dart';
 
 class CargoTankWidget extends StatelessWidget {
-  const CargoTankWidget({Key? key}) : super(key: key);
-
+   CargoTankWidget({Key? key,required this.cargoTankAmount}) : super(key: key);
+String cargoTankAmount;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,7 +31,7 @@ class CargoTankWidget extends StatelessWidget {
                "liter",
                style: Theme.of(context).textTheme.titleMedium,
              ), Text(
-             "1000",
+               cargoTankAmount,
              style: Theme.of(context).textTheme.titleMedium,
            ),],)
           ]),
