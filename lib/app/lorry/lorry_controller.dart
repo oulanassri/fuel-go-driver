@@ -40,8 +40,7 @@ class LorryController extends GetxController {
 
   @override
   void onReady() {
-    cargoTank();
-    getGasStations();
+
     super.onReady();
   }
   void setSelectedGasStation(String value) {

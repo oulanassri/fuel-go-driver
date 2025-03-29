@@ -15,9 +15,9 @@ import '../../common/invoice_table.dart';
 
 class ActiveOrder extends StatelessWidget {
   HomeController controller;
-  RxString activeOrderStatus =
+ /*RxString activeOrderStatus =
       "ontheway" //ontheway  arrivedlocation  startservicing
-          .obs;
+          .obs;*/
 
   ActiveOrder({Key? key, required this.controller}) : super(key: key);
 
@@ -36,79 +36,93 @@ class ActiveOrder extends StatelessWidget {
             Text(
               "طلب قيد التّنفيذ",
               style: Theme.of(context).textTheme.titleLarge,
-            ), Obx(() => controller.isLoading.value
-          ? Center(
-        child: CircularProgressIndicator(),
-      )
-          :Stack(
-              alignment: Alignment.topLeft,
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width,
-
-                  // margin: EdgeInsets.symmetric(horizontal: defaultPadding * 3 / 4),
-                  padding: EdgeInsets.all(defaultPadding / 2),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: primaryColorOpicity,
-                    border: Border.all(
-                      width: 5.0,
-                      // assign the color to the border color
-                      color: primaryColor,
-                    ),
-                  ),
-
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      spacing: defaultPadding / 4,
+            ),
+            Obx(
+              () => controller.isLoading.value
+                  ? Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : Stack(
+                      alignment: Alignment.topLeft,
                       children: [
-                        Text(
-                          "تعبئة لمنزل",
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              "رقم الطلب : ",
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                            Text(
-                              controller.activeOrder.orderNumber??"",
-                              style: Theme.of(context).textTheme.labelSmall,
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              "تارخ و وقت الطلب :",
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                            Text(
-                              controller.activeOrder.date??"",
-                              style: Theme.of(context).textTheme.labelSmall,
-                            ),
-                          ],
-                        ),
-                        Text(
-                          "الموقع : ${controller.activeOrder.locationDescription??""}",
-                          style: Theme.of(context).textTheme.labelSmall,
-                          maxLines: 3,
-                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width,
 
-                        Row(
-                          children: [
-                            Text(
-                              "كمية االتعبئة:  ",
-                              style: Theme.of(context).textTheme.titleMedium,
+                          // margin: EdgeInsets.symmetric(horizontal: defaultPadding * 3 / 4),
+                          padding: EdgeInsets.all(defaultPadding / 2),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: primaryColorOpicity,
+                            border: Border.all(
+                              width: 5.0,
+                              // assign the color to the border color
+                              color: primaryColor,
                             ),
-                            Text(
-                              controller.activeOrder.orderedQuantity??"",
-                              style: Theme.of(context).textTheme.labelSmall,
-                            ),
-                          ],
-                        ),
-                      /*  Column(
+                          ),
+
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              spacing: defaultPadding / 4,
+                              children: [
+                                Text(
+                                  "تعبئة لمنزل",
+                                  style: Theme.of(context).textTheme.titleLarge,
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      "رقم الطلب : ",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium,
+                                    ),
+                                    Text(
+                                      controller.activeOrder.orderNumber ?? "",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelSmall,
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      "تارخ و وقت الطلب :",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium,
+                                    ),
+                                    Text(
+                                      controller.activeOrder.date ?? "",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelSmall,
+                                    ),
+                                  ],
+                                ),
+                                Text(
+                                  "الموقع : ${controller.activeOrder.locationDescription ?? ""}",
+                                  style: Theme.of(context).textTheme.labelSmall,
+                                  maxLines: 3,
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      "كمية االتعبئة:  ",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium,
+                                    ),
+                                    Text(
+                                      controller.activeOrder.orderedQuantity ??
+                                          "",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelSmall,
+                                    ),
+                                  ],
+                                ),
+                                /*  Column(
                           children: [
                             Text(
                               "اسم الزبون و هاتفه:  ",
@@ -124,152 +138,172 @@ class ActiveOrder extends StatelessWidget {
                             ),
                           ],
                         ),*/
-                        Center(
-                          child: Obx(
-                                () => activeOrderStatus.value == "ontheway"
-                                ? Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
-                              children: [
-                                CommonMaterialButton(
-                                  title: "الوصول إلى الموقع",
-                                  function: () {
-                                    controller.arrivedLocation();
-                                    activeOrderStatus.value =
-                                    "arrivedlocation";
-                                    print(activeOrderStatus.value);
-                                  },
-                                ),
-                                CommonMaterialUnclickAbleButton(
-                                  title: 'بدء عملية التعبئة',
-                                ),
-                                CommonMaterialUnclickAbleButton(
-                                  title: 'إنهاء الطلب',
-                                ),
-                              ],
-                            )
-                                : Container(),
-                          ),
-                        ),
-                        Center(
-                          child: Obx(
-                                  () => activeOrderStatus.value == "arrivedlocation"
-                                  ? Row( mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
-                                children: [
-                                  CommonMaterialUnclickAbleButton(
-                                    title: 'الوصول إلى الموقع',
-                                  ),
-                                  CommonMaterialButton(
-                                    title: "بدء عملية التعبئة",
-                                    function: () {
-                                      Get.defaultDialog(
-                                          cancelTextColor:
-                                          secondaryButton,
-                                          buttonColor: secondaryButton,
-                                          title: "أدخل الرّمز للمصادقة",
-                                          textConfirm: "تأكيد",
-                                          textCancel: "إلغاء",
-                                          titleStyle: Theme.of(context)
-                                              .textTheme
-                                              .labelMedium,
-                                          content: Column(
+                                Center(
+                                  child: Obx(
+                                    () => controller.activeOrderStatusId.value == 4
+                                        ? Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
-                                              CustomTextFormField1(
-                                                hintText: 'الرّمز',
-                                                controller: controller
-                                                    .codeController,
+                                              CommonMaterialButton(
+                                                title: "الوصول إلى الموقع",
+                                                function: () {
+                                                  controller.arrivedLocation();
+
+                                                },
+                                              ),
+                                              CommonMaterialUnclickAbleButton(
+                                                title: 'بدء عملية التعبئة',
+                                              ),
+                                              CommonMaterialUnclickAbleButton(
+                                                title: 'إنهاء الطلب',
                                               ),
                                             ],
-                                          ),
-                                          onConfirm: () {
-                                            Get.back();
-                                            activeOrderStatus.value =
-                                            "startservicing";
-                                          });
-                                    },
+                                          )
+                                        : Container(),
                                   ),
-                                  CommonMaterialUnclickAbleButton(
-                                    title: 'إنهاء الطلب',
-                                  ),
-                                ],
-                              )
-                                  : Container()),
-                        ),
-                        Center(
-                          child: Obx(() => activeOrderStatus.value ==
-                              "startservicing"
-                              ? Row( mainAxisAlignment:
-                          MainAxisAlignment.spaceBetween,
-                            children: [
-                              CommonMaterialUnclickAbleButton(
-                                title: 'الوصول إلى الموقع',
-                              ),
-                              CommonMaterialUnclickAbleButton(
-                                title: 'بدء عملية التعبئة',
-                              ),
-                              CommonMaterialButton(
-                                title: "إنهاء الطلب",
-                                function: () {
-                                  Get.defaultDialog(
-                                      cancelTextColor: secondaryButton,
-                                      buttonColor: secondaryButton,
-                                      title: "أدخل كميّة التّعبئة",
-                                      textConfirm: "تأكيد ",
-                                      textCancel: "إلغاء",
-                                      titleStyle: Theme.of(context)
-                                          .textTheme
-                                          .labelMedium,
-                                      content: Column(
-                                        children: [
-                                          CustomTextFormField1(
-                                            hintText: 'كميّة التّعبئة',
-                                            controller: controller
-                                                .fuelQuantityController,
-                                          ),
-                                        ],
-                                      ),
-                                      onConfirm: () {
-                                        Get.back();
-                                        Get.defaultDialog(
-                                            cancelTextColor:
-                                            secondaryButton,
-                                            buttonColor: secondaryButton,
-                                            title: "الفاتورة",
-                                            textConfirm:
-                                            "تم إنجاز المهمة",
-                                            textCancel: "إلغاء",
-                                            titleStyle: Theme.of(context)
-                                                .textTheme
-                                                .labelMedium,
-                                            content: InvoiceTable(ordersModel: OrdersModel(),),
-                                            onConfirm: () {
-                                              Get.back();
-                                              controller
-                                                  .updateDriverStatus(
-                                                  "متاح");
-                                            });
-                                      });
-                                },
-                              ),
-                            ],
-                          )
-                              : Container()),
-                        ),
-                      ]),
-                ),
-                Image.asset(
-                  "assets/images/Home_FuelGo.png",
-                  fit: BoxFit.contain,
-                  width: 50,
-                  height: 50,
-                ),
-              ],
-            ),),
+                                ),
+                                Center(
+                                  child: Obx(() => controller.activeOrderStatusId.value == 5
+                                      ? Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            CommonMaterialUnclickAbleButton(
+                                              title: 'الوصول إلى الموقع',
+                                            ),
+                                            CommonMaterialButton(
+                                              title: "بدء عملية التعبئة",
+                                              function: () {
+                                                Get.defaultDialog(
+                                                    cancelTextColor:
+                                                        secondaryButton,
+                                                    buttonColor:
+                                                        secondaryButton,
+                                                    title:
+                                                        "أدخل الرّمز للمصادقة",
+                                                    textConfirm: "تأكيد",
+                                                    textCancel: "إلغاء",
+                                                    titleStyle:
+                                                        Theme.of(context)
+                                                            .textTheme
+                                                            .labelMedium,
+                                                    content: Column(
+                                                      children: [
+                                                        CustomTextFormField1(
+                                                          hintText: 'الرّمز',
+                                                          controller: controller
+                                                              .codeController,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    onConfirm: () {
+                                                      Get.back();
+controller.startServicingOrder(authCode: controller.codeController.text);
+                                                    });
+                                              },
+                                            ),
+                                            CommonMaterialUnclickAbleButton(
+                                              title: 'إنهاء الطلب',
+                                            ),
+                                          ],
+                                        )
+                                      : Container()),
+                                ),
+                                Center(
+                                  child: Obx(() => controller.activeOrderStatusId.value == 6
+                                      ? Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            CommonMaterialUnclickAbleButton(
+                                              title: 'الوصول إلى الموقع',
+                                            ),
+                                            CommonMaterialUnclickAbleButton(
+                                              title: 'بدء عملية التعبئة',
+                                            ),
+                                            CommonMaterialButton(
+                                              title: "إنهاء الطلب",
+                                              function: () {
+                                                controller.completeOrder(quantity: controller
+                                                    .fuelQuantityController.text);
+                                               /* Get.defaultDialog(
+                                                    cancelTextColor:
+                                                        secondaryButton,
+                                                    buttonColor:
+                                                        secondaryButton,
+                                                    title:
+                                                        "أدخل كميّة التّعبئة",
+                                                    textConfirm: "تأكيد ",
+                                                    textCancel: "إلغاء",
+                                                    titleStyle:
+                                                        Theme.of(context)
+                                                            .textTheme
+                                                            .labelMedium,
+                                                    content: Column(
+                                                      children: [
+                                                        CustomTextFormField1(
+                                                          hintText:
+                                                              'كميّة التّعبئة',
+                                                          controller: controller
+                                                              .fuelQuantityController,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    onConfirm: () {
+                                                      Get.back();
+                                                      Get.defaultDialog(
+                                                          cancelTextColor:
+                                                              secondaryButton,
+                                                          buttonColor:
+                                                              secondaryButton,
+                                                          title: "الفاتورة",
+                                                          textConfirm:
+                                                              "تم إنجاز المهمة",
+                                                          textCancel: "إلغاء",
+                                                          titleStyle:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .labelMedium,
+                                                          content: InvoiceTable(
+                                                            ordersModel:
+                                                                OrdersModel(),
+                                                          ),
+                                                          onConfirm: () {
+                                                            Get.back();
 
+
+                                                          });
+                                                    });*/
+                                              },
+                                            ),
+                                          ],
+                                        )
+                                      : Container()),
+                                ),
+                              ]),
+                        ),
+                        Image.asset(
+                          "assets/images/Home_FuelGo.png",
+                          fit: BoxFit.contain,
+                          width: 50,
+                          height: 50,
+                        ),
+                      ],
+                    ),
+            ),
             SizedBox(
               height: defaultPadding * 2,
             ),
+            GestureDetector(
+              child: Text(
+                "order status",
+                style: TextStyle(color: Colors.black),
+              ),
+              onTap: () {
+                controller.getActiveOrderStatus();
+              },
+            )
           ],
         ),
       ),

@@ -6,6 +6,7 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
 import '../../models/active_order.dart';
 import '../../models/driver_status.dart';
+import '../../models/order_status_model.dart';
 import '../../models/pending_order.dart';
 import '../../native_service/get_storage.dart';
 import '../../utils/constants/api_constants.dart';
@@ -19,7 +20,11 @@ class HomeController extends GetxController {
   List orders = [].obs;
   late ActiveOrder activeOrder = ActiveOrder();
   DriverStatusModel driverStatusModel=DriverStatusModel();
-  RxString driverStatus = "offline".obs; //pending  offline ontheway
+  OrderStatusModel orderStatusModel=OrderStatusModel();
+  RxString driverStatus = "غير نشط".obs; //  غير نشط /متاح /مشغول
+
+  RxString activeOrderStatus = "في الطريق".obs; //بدء تعبئة الطلب1  في الطريق4  وصل للموقع1
+  RxInt activeOrderStatusId = 4.obs; //
 
   TextEditingController codeController = TextEditingController();
   TextEditingController fuelQuantityController = TextEditingController();
@@ -28,6 +33,7 @@ class HomeController extends GetxController {
   void onInit() {
     print('Here is the token at spalsh $token');
     getDriverStatus();
+    getActiveOrderStatus();
     super.onInit();
   }
 
@@ -45,8 +51,9 @@ class HomeController extends GetxController {
     }
   }
 
-  void updateActiveOrderStatus(String status) {
-    driverStatus.value = status; //ontheway arrivedlocation startservicing
+  void updateActiveOrderStatus(String status,int id) {
+    activeOrderStatus.value = status; //ontheway arrivedlocation startservicing
+    activeOrderStatusId.value=id;
   }
   Future<void> getDriverStatus() async {
     print("getDriverStatus");
@@ -83,7 +90,42 @@ class HomeController extends GetxController {
       isLoading(false);
     }
   }
+  Future<void> getActiveOrderStatus() async {
+    print("getActiveOrderStatus");
+    try {
+      isLoading(true);
 
+      final response = await http.get(
+          Uri.parse(
+              '${APIConstants.baseUrl}${APIConstants.endPoints.getActiveOrderStatus}'),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token'
+          });
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        var body = json.decode(response.body);
+      //  print(body.toString());
+        orderStatusModel = OrderStatusModel(
+          id: body["id"].toString() ?? "",
+          name: body["name"].toString() ?? "",
+          statusTypeId: body["statusTypeId"].toString() ?? "",
+
+        );
+
+        print("orderStatusModel.name ${orderStatusModel.name}");
+
+        updateActiveOrderStatus(orderStatusModel.name!,int.parse(orderStatusModel.id??"4"));
+        print("orderStatusModel.name  ${orderStatusModel.name}+  orderStatusModel.id ${orderStatusModel.id}");
+      } else {
+        throw Exception('Failed to load date: ${response.statusCode}');
+      }
+      //Get.back();
+    } catch (e) {
+      print(e);
+    } finally {
+      isLoading(false);
+    }
+  }
   /*Future<void> getDriverStatus() async {
     print("getDriverStatus");
     try {
@@ -181,6 +223,7 @@ class HomeController extends GetxController {
 
       THelperFunctions.showSnackBar(
           message: 'تم الموافقة على الطلب', title: 'جالة الطلب');
+      getActiveOrderStatus();
     } catch (e) {
       print(e);
     }
@@ -192,12 +235,24 @@ class HomeController extends GetxController {
       Map<String, dynamic> body = await THttpHelper.post(
         endpoint: APIConstants.endPoints.arrivedLocation,
         data: {},
-      );
-      print(body);
-      updateActiveOrderStatus("arrivedlocation");
+      );final response = await http.post(Uri.parse('${APIConstants.baseUrl}${APIConstants.endPoints.arrivedLocation}'),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token'
+          },
+         );
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        print(body);
+        getActiveOrderStatus();
 
-      THelperFunctions.showSnackBar(
-          message: 'تم الوصول إلى الموقع', title: 'حالة الطلب');
+
+        THelperFunctions.showSnackBar(
+            message: 'تم الوصول إلى الموقع', title: 'حالة الطلب');
+      } else {
+        print(response.body);
+        throw Exception('Failed to load date: ${response.statusCode}');
+      }
+
     } catch (e) {
       print(e);
     }
@@ -209,7 +264,7 @@ class HomeController extends GetxController {
     try {
       final response = await http.post(
         Uri.parse(
-            '${APIConstants.baseUrl}${APIConstants.endPoints.startServicingOrder}?plateNum=$authCode'),
+            '${APIConstants.baseUrl}${APIConstants.endPoints.startServicingOrder}?authCode=$authCode'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ${UserStorage.read('token')}'
@@ -217,10 +272,11 @@ class HomeController extends GetxController {
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        updateActiveOrderStatus("startservicing");
+        getActiveOrderStatus();
         THelperFunctions.showSnackBar(
             message: 'تتم عملية التعبئة', title: 'حالة الطلب');
       } else {
+        print("response body ${response.body}");
         throw Exception('Failed to load date: ${response.statusCode}');
       }
     } catch (e) {
@@ -234,7 +290,7 @@ class HomeController extends GetxController {
     try {
       final response = await http.post(
         Uri.parse(
-            '${APIConstants.baseUrl}${APIConstants.endPoints.completeOrder}?plateNum=$quantity'),
+            '${APIConstants.baseUrl}${APIConstants.endPoints.completeOrder}?plateNum=${int.parse(quantity)}'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ${UserStorage.read('token')}'
@@ -243,10 +299,13 @@ class HomeController extends GetxController {
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         updateDriverStatus("متاح");
-
+print("response body  ${response.body}");
+getDriverStatus();
         THelperFunctions.showSnackBar(
             message: 'تمّ إتتهاء عملية التعبئة بنجاح', title: 'حالة الطلب');
       } else {
+        print("response body  ${response.body}");
+
         throw Exception('Failed to load date: ${response.statusCode}');
       }
     } catch (e) {

@@ -35,7 +35,7 @@ class HomeScreen extends GetView<HomeController> {
             decoration: BoxDecoration(
               gradient: gradientColorBg,
             ),
-            child: controller.driverStatus.value == "offline"
+            child: controller.driverStatus.value == "غير نشط"
                 ? StartJob(
                     controller: controller,
                   )

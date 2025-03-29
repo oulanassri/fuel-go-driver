@@ -22,7 +22,8 @@ class _EndPoints{
    final String getMyOrders="/api/Driver/get-my-orders";//True
    final String cargoTank="/api/Driver/cargo-tank";//True
    final String updateDriverLocation="/api/Driver/update-driver-location";
-   final String getDriverStatus="/api/Driver/get-driver-status";
+   final String getDriverStatus="/api/Driver/get-driver-status";//True
+   final String getActiveOrderStatus="/api/Order/get-active-order-status";
 
 
    //city
@@ -31,10 +32,10 @@ class _EndPoints{
    //Neighborhood
    final String getNeighborhood="/api/Neighborhood/get-neighborhood";
 
-   final String getGasStations="/api/GasStation/get-gas-stations";
+   final String getGasStations="/api/GasStation/get-gas-stations";//True
    final String refill="/api/TankRefill/refill";
-   final String refillCargoTank="/api/TankRefill/refill-cargo-tank";
-   final String refillFuelTank="/api/TankRefill/refill-fuel-tank";
+   final String refillCargoTank="/api/TankRefill/refill-cargo-tank";//True
+   final String refillFuelTank="/api/TankRefill/refill-fuel-tank";//True
 
 
 
