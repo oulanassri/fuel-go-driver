@@ -49,31 +49,7 @@ class StartJob extends StatelessWidget {
             ),
           ),
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 100),
-          child: MaterialButton(
-            onPressed: () {
-              controller.getDriverStatus();
-/* controller.updateDriverStatus(
-    "pending");*/
-            },
-            height: 50,
 
-            // margin: EdgeInsets.symmetric(horizontal: 50),
-            color: secondaryColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(50),
-            ),
-            // decoration: BoxDecoration(
-            // ),
-            child: Center(
-              child: Text(
-                "إنهاء العمل",
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-            ),
-          ),
-        ),
       ],
     );
   }

@@ -51,17 +51,13 @@ class HousePendingOrderWidget extends StatelessWidget {
                           "تعبئة لمنزل",
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
-                        Row(
-                          children: [
-                            Text(
-                              "تارخ و وقت الطلب :",
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                            Text(
-                              pendingOrder.date ?? "",
-                              style: Theme.of(context).textTheme.labelSmall,
-                            ),
-                          ],
+                        Text(
+                          "تارخ و وقت الطلب :",
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        Text(
+                          pendingOrder.date ?? "",
+                          style: Theme.of(context).textTheme.labelSmall,
                         ),
                         open.value == true
                             ? Text(
@@ -122,6 +118,14 @@ class HousePendingOrderWidget extends StatelessWidget {
                                 ],
                               )
                             : Container(),*/
+                        open.value == true
+                            ? CommonMaterialButton(
+                          title: "موقع الطلب",
+                          function: () {
+                            controller.openMap(pendingOrder.lat??"", pendingOrder.long??"");
+                          },
+                        )
+                            : Container(),
                         open.value == true
                             ? CommonMaterialButton(
                                 title: "قبول الطّلب",

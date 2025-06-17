@@ -18,52 +18,83 @@ class PendingOrders extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: defaultPadding),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          spacing: defaultPadding,
+          spacing: defaultPadding / 2,
           children: [
-            SizedBox(
-              height: defaultPadding * 2,
+            SizedBox(height: defaultPadding / 2,),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: EdgeInsets.only(right: 200),
+                child: MaterialButton(
+                  onPressed: () {
+                    controller.endJob();
+                  },
+                  height: 50,
+
+                  // margin: EdgeInsets.symmetric(horizontal: 50),
+                  color: secondaryColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  // decoration: BoxDecoration(
+                  // ),
+                  child: Center(
+                    child: Text(
+                      "إنهاء العمل",
+                      style: Theme
+                          .of(context)
+                          .textTheme
+                          .bodyMedium,
+                    ),
+                  ),
+                ),
+              ),
             ),
+
             Text(
               "طلبات قيد الانتظار",
-              style: Theme.of(context).textTheme.titleLarge,
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .titleLarge,
             ),
             //HousePendingOrderWidget(controller: controller,),
             //CarPendingOrderWidget(controller: controller,),
-           // HousePendingOrderWidget(controller: controller,),
-          //  CarPendingOrderWidget(controller: controller,),
-            Obx(() => controller.isLoading.value
-                ? Center(
-              child: CircularProgressIndicator(),
-            )
-                : SingleChildScrollView(
-              child: Column(
-                spacing: defaultPadding,
-                children: [
-                  SizedBox(
-                    height: defaultPadding * 2,
+            // HousePendingOrderWidget(controller: controller,),
+            //  CarPendingOrderWidget(controller: controller,),
+            Obx(() =>
+                SingleChildScrollView(
+                  child: Column(
+                    spacing: defaultPadding,
+                    children: [
+                      SizedBox(
+                        height: defaultPadding / 2,
+                      ),
+                      //     PreviousOrder(),
+                      //    PreviousOrder(),
+                      ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: controller.orders.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return GestureDetector(
+                              onLongPress: () {},
+                              child: controller.orders[index].customerCarId ==
+                                  "null" ? HousePendingOrderWidget(
+                                controller: controller,
+                                pendingOrder: controller.orders[index],
+                              ):CarPendingOrderWidget(
+                                controller: controller,
+                                pendingOrder: controller.orders[index],
+                              ),
+                            );
+                          }),
+                      SizedBox(
+                        height: defaultPadding,
+                      ),
+                    ],
                   ),
-                  //     PreviousOrder(),
-                  //    PreviousOrder(),
-                  ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: controller.orders.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return GestureDetector(
-                          onLongPress: () {
-
-                          },
-                          child: HousePendingOrderWidget(
-                            controller: controller, pendingOrder: controller.orders[index],
-                          ),
-                        );
-                      }),
-                  SizedBox(
-                    height: defaultPadding,
-                  ),
-                ],
-              ),
-            )),
+                )),
             SizedBox(
               height: defaultPadding * 2,
             ),

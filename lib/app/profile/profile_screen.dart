@@ -3,6 +3,8 @@ import 'package:fuel_go_driver/app/profile/profile_controller.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
+import '../../utils/helpers/helper_functions.dart';
+import '../../utils/validators/validation.dart';
 import '../common/common_material_button.dart';
 import '../common/custom_app_bar.dart';
 import '../common/custom_material_button.dart';
@@ -106,7 +108,26 @@ class ProfileScreen extends GetView<ProfileController> {
                       onConfirm: () {
                         print("confirm");
 
-                        controller.editPassword();
+                        if (TValidator.isValidatePassword(
+                            controller.newPassword.text) &&
+                            (controller.newPassword.text ==
+                                controller.renewPassword.text)) {
+                          controller.editPassword();
+                        } else {
+                          String? message1 = "", message2 = "";
+                          if (!(TValidator.isValidatePassword(
+                              controller.newPassword.text))) {
+                            message1 = TValidator.validatePassword(
+                                controller.newPassword.text);
+                          }
+                          if (controller.newPassword.text !=
+                              controller.renewPassword.text) {
+                            message2 = "كلمتا السّر غير متطابقتان";
+                          }
+                          THelperFunctions.showSnackBar(
+                              title: "رسالة خطأ",
+                              message: "$message1 , $message2 ");
+                        }
                       },
                       onCancel: () {
                         print("cancel");

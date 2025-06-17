@@ -22,12 +22,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
         centerTitle: true,
         actions: [
-          IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.access_time_filled_outlined,
-                color: white,
-              ))
+
         ],
         flexibleSpace: Container(
           decoration: BoxDecoration(

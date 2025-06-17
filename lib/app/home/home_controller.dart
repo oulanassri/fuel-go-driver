@@ -1,10 +1,14 @@
+import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../models/active_order.dart';
+import '../../models/complete_order_response.dart';
 import '../../models/driver_status.dart';
 import '../../models/order_status_model.dart';
 import '../../models/pending_order.dart';
@@ -21,19 +25,24 @@ class HomeController extends GetxController {
   late ActiveOrder activeOrder = ActiveOrder();
   DriverStatusModel driverStatusModel=DriverStatusModel();
   OrderStatusModel orderStatusModel=OrderStatusModel();
-  RxString driverStatus = "غير نشط".obs; //  غير نشط /متاح /مشغول
+  RxString driverStatus = "غير نشط".obs; //  انتظار غير نشط /متاح /مشغول
 
-  RxString activeOrderStatus = "في الطريق".obs; //بدء تعبئة الطلب1  في الطريق4  وصل للموقع1
+  RxString activeOrderStatus = "في الطريق".obs; //بدء تعبئة الطلب1  في الطريق4  وصل للموقع5
   RxInt activeOrderStatusId = 4.obs; //
-
+  CompleteOrderResponse completeOrderResponse=CompleteOrderResponse();
   TextEditingController codeController = TextEditingController();
   TextEditingController fuelQuantityController = TextEditingController();
 
+  var connectionStatus=0.obs;
+ // bool isConnected=await InternetConnectionChecker().hasConnection;
   @override
   void onInit() {
     print('Here is the token at spalsh $token');
-    getDriverStatus();
-    getActiveOrderStatus();
+
+      Timer.periodic(Duration(seconds: 6), (timer){
+      getDriverStatus();
+    });
+
     super.onInit();
   }
 
@@ -46,8 +55,11 @@ class HomeController extends GetxController {
 
   void updateDriverStatus(String status) {
     driverStatus.value = status;
-    if (status == "متاح") {
+    if (status == "انتظار") {
       getPendingOrders();
+    }
+    else if(status=="مشغول"){
+      getActiveOrderStatus();
     }
   }
 
@@ -58,7 +70,7 @@ class HomeController extends GetxController {
   Future<void> getDriverStatus() async {
     print("getDriverStatus");
     try {
-      isLoading(true);
+     // isLoading(true);
 
       final response = await http.get(
           Uri.parse(
@@ -87,13 +99,13 @@ class HomeController extends GetxController {
     } catch (e) {
       print(e);
     } finally {
-      isLoading(false);
+   //   isLoading(false);
     }
   }
   Future<void> getActiveOrderStatus() async {
     print("getActiveOrderStatus");
     try {
-      isLoading(true);
+     // isLoading(true);
 
       final response = await http.get(
           Uri.parse(
@@ -102,12 +114,12 @@ class HomeController extends GetxController {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer $token'
           });
-      if (response.statusCode == 200 || response.statusCode == 201) {
+      if (response.statusCode == 200 || response.statusCode == 201 ||response.statusCode == 204) {
         var body = json.decode(response.body);
       //  print(body.toString());
         orderStatusModel = OrderStatusModel(
           id: body["id"].toString() ?? "",
-          name: body["name"].toString() ?? "",
+          name: body["name"].toString()??"",
           statusTypeId: body["statusTypeId"].toString() ?? "",
 
         );
@@ -123,7 +135,7 @@ class HomeController extends GetxController {
     } catch (e) {
       print(e);
     } finally {
-      isLoading(false);
+     // isLoading(false);
     }
   }
   /*Future<void> getDriverStatus() async {
@@ -167,13 +179,20 @@ class HomeController extends GetxController {
         },
       );
       print(response.statusCode);
+      print(response.body);
+
       if (response.statusCode == 200 || response.statusCode == 201) {
-        updateDriverStatus("متاح");
-        getPendingOrders();
+
+
         THelperFunctions.showSnackBar(
             message: 'تم بدء العمل', title: 'حالة العمل');
+        getDriverStatus();
       } else {
+        if (kDebugMode) {
+          print(response.body);
+        }
         print(response.body);
+
         throw Exception('Failed to load date: ${response.statusCode}');
       }
 
@@ -195,8 +214,7 @@ class HomeController extends GetxController {
       );
       print(response.statusCode);
       if (response.statusCode == 200 || response.statusCode == 201) {
-        updateDriverStatus("offline");
-
+        getDriverStatus();
         THelperFunctions.showSnackBar(
             message: 'تم إنتهاء العمل', title: 'حالة العمل');
       } else {
@@ -216,10 +234,9 @@ class HomeController extends GetxController {
       Map<String, dynamic> body = await THttpHelper.post(
           endpoint: APIConstants.endPoints.acceptOrder, data: data);
       print(body);
-
-      getActiveOrder();
       getDriverStatus();
-      //updateDriverStatus("ontheway");
+      getActiveOrder();
+
 
       THelperFunctions.showSnackBar(
           message: 'تم الموافقة على الطلب', title: 'جالة الطلب');
@@ -232,19 +249,16 @@ class HomeController extends GetxController {
   Future<void> arrivedLocation() async {
     print("arrivedLocation");
     try {
-      Map<String, dynamic> body = await THttpHelper.post(
-        endpoint: APIConstants.endPoints.arrivedLocation,
-        data: {},
-      );final response = await http.post(Uri.parse('${APIConstants.baseUrl}${APIConstants.endPoints.arrivedLocation}'),
+    final response = await http.post(Uri.parse('${APIConstants.baseUrl}${APIConstants.endPoints.arrivedLocation}'),
           headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer $token'
           },
          );
       if (response.statusCode == 200 || response.statusCode == 201) {
-        print(body);
-        getActiveOrderStatus();
+        getDriverStatus();
 
+        getActiveOrderStatus();
 
         THelperFunctions.showSnackBar(
             message: 'تم الوصول إلى الموقع', title: 'حالة الطلب');
@@ -273,6 +287,7 @@ class HomeController extends GetxController {
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         getActiveOrderStatus();
+        codeController.clear();
         THelperFunctions.showSnackBar(
             message: 'تتم عملية التعبئة', title: 'حالة الطلب');
       } else {
@@ -284,7 +299,7 @@ class HomeController extends GetxController {
     }
   }
 
-  Future<void> completeOrder({required String quantity}) async {
+  Future<bool> completeOrder({required String quantity}) async {
     print("completeOrder");
 
     try {
@@ -298,18 +313,24 @@ class HomeController extends GetxController {
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        updateDriverStatus("متاح");
-print("response body  ${response.body}");
-getDriverStatus();
+        print("response body  ${response.body}");
+        final temp=jsonDecode(response.body);
+        completeOrderResponse=CompleteOrderResponse(finalPrice: temp["finalPrice"],finalQuantity: temp["finalQuantity"],price: temp["price"]);
+       // updateDriverStatus("متاح");
+
+   getDriverStatus();
         THelperFunctions.showSnackBar(
             message: 'تمّ إتتهاء عملية التعبئة بنجاح', title: 'حالة الطلب');
+        return true;
       } else {
-        print("response body  ${response.body}");
-
+      //  print("response body  ${response.body}");
+        return false;
         throw Exception('Failed to load date: ${response.statusCode}');
+
       }
     } catch (e) {
       print(e);
+      return false;
     }
   }
 
@@ -360,6 +381,8 @@ getDriverStatus();
               customerCarId: body[i]["customerCarId"].toString() ?? "",
             ),
           );
+
+
         }
       } else {
         throw Exception('Failed to load date: ${response.statusCode}');
@@ -407,5 +430,14 @@ getDriverStatus();
     } finally {
       isLoading(false);
     }
+  }
+
+  Future<void> openMap(String lat, String long) async {
+    print("https://www.google.com/maps/search/?api=1&query=$lat,$long");
+    String googleUrl =
+        "https://www.google.com/maps/search/?api=1&query=$lat,$long";
+    await canLaunchUrlString(googleUrl)
+        ? await launchUrlString(googleUrl)
+        : throw 'Could not launch $googleUrl';
   }
 }
