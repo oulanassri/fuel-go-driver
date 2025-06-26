@@ -37,6 +37,7 @@ class _EndPoints{
    final String refillCargoTank="/api/TankRefill/refill-cargo-tank";//True
    final String refillFuelTank="/api/TankRefill/refill-fuel-tank";//True
 
+   final String getProfile = "/api/User/get-profile";
 
 
 

@@ -34,7 +34,9 @@ class HomeController extends GetxController {
   TextEditingController fuelQuantityController = TextEditingController();
 
   var connectionStatus=0.obs;
- // bool isConnected=await InternetConnectionChecker().hasConnection;
+
+
+  // bool isConnected=await InternetConnectionChecker().hasConnection;
   @override
   void onInit() {
     print('Here is the token at spalsh $token');
@@ -60,6 +62,7 @@ class HomeController extends GetxController {
     }
     else if(status=="مشغول"){
       getActiveOrderStatus();
+      getActiveOrder();
     }
   }
 
@@ -123,7 +126,8 @@ class HomeController extends GetxController {
           statusTypeId: body["statusTypeId"].toString() ?? "",
 
         );
-
+        //Adding
+       // getActiveOrder();
         print("orderStatusModel.name ${orderStatusModel.name}");
 
         updateActiveOrderStatus(orderStatusModel.name!,int.parse(orderStatusModel.id??"4"));
@@ -373,8 +377,8 @@ class HomeController extends GetxController {
               orderNumber: body[i]["orderNumber"].toString() ?? "",
               locationDescription:
                   body[i]["locationDescription"].toString() ?? "",
-              lat: body[i]["lat"].toString() ?? "",
-              long: body[i]["long"].toString() ?? "",
+              lat: body[i]["customerLat"].toString() ?? "",
+              long: body[i]["customerLong"].toString() ?? "",
               orderedQuantity: body[i]["orderedQuantity"].toString() ?? "",
               neighborhoodId: body[i]["neighborhoodId"].toString() ?? "",
               fuelTypeId: body[i]["fuelTypeId"].toString() ?? "",
@@ -398,7 +402,7 @@ class HomeController extends GetxController {
   Future<void> getActiveOrder() async {
     print("getActiveOrder");
     try {
-      isLoading(true);
+     // isLoading(true);
 
       final response = await http.get(
           Uri.parse(
@@ -409,18 +413,22 @@ class HomeController extends GetxController {
           });
       if (response.statusCode == 200 || response.statusCode == 201) {
         var body = json.decode(response.body);
+        print(body);
         activeOrder = ActiveOrder(
           date: body["date"].toString() ?? "",
           orderNumber: body["orderNumber"].toString() ?? "",
           locationDescription: body["locationDescription"].toString() ?? "",
-          lat: body["lat"].toString() ?? "",
-          long: body["long"].toString() ?? "",
+          lat: body["customerLat"].toString() ?? "",
+          long: body["customerLong"].toString() ?? "",
           orderedQuantity: body["orderedQuantity"].toString() ?? "",
           neighborhoodId: body["neighborhoodId"].toString() ?? "",
           fuelTypeId: body["fuelTypeId"].toString() ?? "",
           customerCarId: body["customerCarId"].toString() ?? "",
         );
+
         print(activeOrder.orderNumber);
+        print(activeOrder.lat);
+        print(activeOrder.long);
       } else {
         throw Exception('Failed to load date: ${response.statusCode}');
       }
@@ -428,7 +436,7 @@ class HomeController extends GetxController {
     } catch (e) {
       print(e);
     } finally {
-      isLoading(false);
+     // isLoading(false);
     }
   }
 

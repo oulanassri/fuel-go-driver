@@ -23,8 +23,8 @@ class ActiveOrder {
   ActiveOrder.fromJson(Map<String, dynamic> json) {
     date = json['date'].toString()??"";
     orderNumber = json['orderNumber'].toString()??"";
-    lat = json['lat'].toString()??"";
-    long = json['long'].toString()??"";
+    lat = json['customerLat'].toString()??"";
+    long = json['customerLong'].toString()??"";
     locationDescription = json['locationDescription'].toString()??"";
     neighborhoodId = json['neighborhoodId'].toString()??"";
     fuelTypeId = json['fuelTypeId'].toString()??"";

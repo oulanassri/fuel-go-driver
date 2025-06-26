@@ -32,35 +32,46 @@ class HomeScreen extends GetView<HomeController> {
         title: 'الواجهة الرئيسية',
       ),
 
-      body: Obx(() =>
-      (networkController.connectstatus.value == "Mobile Internet" ||
-          networkController.connectstatus.value == "VPN")
-          ? Container(
-        height: double.infinity,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          gradient: gradientColorBg,
-        ),
-        child: controller.driverStatus.value == "غير نشط"
-            ? StartJob(
-          controller: controller,
-        )
-            : (controller.driverStatus.value == "انتظار" //انتظار
-            ? PendingOrders(
-          controller: controller,
-        )
-            : ActiveOrder(
-          controller: controller,
-        )),
-      ):Container( height: double.infinity,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          gradient: gradientColorBg,
-
-        ),child: Center(child: Text("No Internet"),),),), /*GetBuilder<GetXNetworkManager>(
+      body: Obx(
+        () => (networkController.connectstatus.value == "Mobile Internet" ||
+                networkController.connectstatus.value == "VPN")
+            ? Container(
+                height: double.infinity,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  gradient: gradientColorBg,
+                ),
+                child: controller.driverStatus.value == "غير نشط"
+                    ? StartJob(
+                        controller: controller,
+                      )
+                    : (controller.driverStatus.value == "انتظار" //انتظار
+                        ? PendingOrders(
+                            controller: controller,
+                          )
+                        : ActiveOrder(
+                            controller: controller,
+                          )),
+              )
+            : Container(
+                height: double.infinity,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  gradient: gradientColorBg,
+                ),
+                child: Center(
+                  child: Image.asset(
+                    "assets/images/no_internet.png",
+                    fit: BoxFit.cover,
+                    width: 200,
+                  ),
+                ),
+              ),
+      ), /*GetBuilder<GetXNetworkManager>(
           builder: (builder) => _networkManager.connectionType == 0
               ? Text("No Internet")
               : )*/
     );
   }
 }
+//no_internet.png

@@ -86,13 +86,24 @@ class CustomNavigationDrawer extends StatelessWidget {
   }
 
   Widget buildDrawerHeader(BuildContext context) {
+    final String initial = _getInitial(UserStorage.read("name")??"--");
     return UserAccountsDrawerHeader(
       decoration: BoxDecoration(color: primaryColor),
-      accountName: Text("username"),
-      accountEmail: Text("email"),
-      // currentAccountPicture: CircleAvatar(
-      //   backgroundColor: white,
-      // ),
+      accountName: Text(UserStorage.read("name")??"--"),
+      accountEmail: Text(UserStorage.read("email")??"--"),
+      currentAccountPicture: CircleAvatar(
+        backgroundColor: white,
+        child: Text(
+          initial,
+          style: const TextStyle(
+              fontSize: 40,
+              color: secondaryColor,
+              fontFamily: 'Tajawal',
+              fontWeight:FontWeight.bold
+          ),
+          textDirection: _isArabic(initial) ? TextDirection.rtl : TextDirection.ltr,
+        ),
+      ),
       currentAccountPictureSize: Size.square(72),
       otherAccountsPicturesSize: Size.square(50),
     );
@@ -132,5 +143,14 @@ class CustomNavigationDrawer extends StatelessWidget {
       UserStorage.delete('token');
       Get.offAndToNamed(Routes.LOGIN);
     }
+  }
+  String _getInitial(String name) {
+    if (name.trim().isEmpty) return '?';
+    return name.trim()[0].toUpperCase();
+  }
+  bool _isArabic(String text) {
+    if (text.isEmpty) return false;
+    final codeUnit = text.codeUnitAt(0);
+    return (codeUnit >= 0x0600 && codeUnit <= 0x06FF);
   }
 }

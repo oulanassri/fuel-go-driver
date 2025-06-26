@@ -300,8 +300,15 @@ class ActiveOrder extends StatelessWidget {
                                 )
                               ]),
                         ),
+                        controller.activeOrder.customerCarId ==
+                            "null" ?
                         Image.asset(
                           "assets/images/Home_FuelGo.png",
+                          fit: BoxFit.contain,
+                          width: 50,
+                          height: 50,
+                        ):Image.asset(
+                          "assets/images/Car_FuelGo.png",
                           fit: BoxFit.contain,
                           width: 50,
                           height: 50,

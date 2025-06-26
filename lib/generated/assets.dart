@@ -8,6 +8,7 @@ class Assets {
   static const String imagesGasolineFuelGo = 'assets/images/Gasoline_FuelGo.png';
   static const String imagesHomeFuelGo = 'assets/images/Home_FuelGo.png';
   static const String imagesLogo = 'assets/images/logo.png';
+  static const String imagesNointernet = 'assets/images/no_internet.png';
   static const String imagesTruckFuelGo = 'assets/images/Truck_FuelGo.png';
   static const String tajawalTajawalBlack = 'assets/fonts/Tajawal/Tajawal-Black.ttf';
   static const String tajawalTajawalBold = 'assets/fonts/Tajawal/Tajawal-Bold.ttf';

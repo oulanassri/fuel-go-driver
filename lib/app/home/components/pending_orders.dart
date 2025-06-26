@@ -62,39 +62,35 @@ class PendingOrders extends StatelessWidget {
             //CarPendingOrderWidget(controller: controller,),
             // HousePendingOrderWidget(controller: controller,),
             //  CarPendingOrderWidget(controller: controller,),
-            Obx(() =>
-                SingleChildScrollView(
-                  child: Column(
-                    spacing: defaultPadding,
-                    children: [
-                      SizedBox(
-                        height: defaultPadding / 2,
-                      ),
-                      //     PreviousOrder(),
-                      //    PreviousOrder(),
-                      ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: controller.orders.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return GestureDetector(
-                              onLongPress: () {},
-                              child: controller.orders[index].customerCarId ==
-                                  "null" ? HousePendingOrderWidget(
-                                controller: controller,
-                                pendingOrder: controller.orders[index],
-                              ):CarPendingOrderWidget(
-                                controller: controller,
-                                pendingOrder: controller.orders[index],
-                              ),
-                            );
-                          }),
-                      SizedBox(
-                        height: defaultPadding,
-                      ),
-                    ],
+            SingleChildScrollView(
+              child: Column(
+                spacing: defaultPadding,
+                children: [
+                  SizedBox(
+                    height: defaultPadding / 2,
                   ),
-                )),
+                  //     PreviousOrder(),
+                  //    PreviousOrder(),
+                  Obx(()=>   ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: controller.orders.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return controller.orders[index].customerCarId ==
+                            "null" ? HousePendingOrderWidget(
+                          controller: controller,
+                          pendingOrder: controller.orders[index],
+                        ):CarPendingOrderWidget(
+                          controller: controller,
+                          pendingOrder: controller.orders[index],
+                        );
+                      }),),
+                  SizedBox(
+                    height: defaultPadding,
+                  ),
+                ],
+              ),
+            ),
             SizedBox(
               height: defaultPadding * 2,
             ),
