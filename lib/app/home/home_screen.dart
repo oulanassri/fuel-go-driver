@@ -34,7 +34,8 @@ class HomeScreen extends GetView<HomeController> {
 
       body: Obx(
         () => (networkController.connectstatus.value == "Mobile Internet" ||
-                networkController.connectstatus.value == "VPN")
+                networkController.connectstatus.value == "VPN" ||
+                networkController.connectstatus.value == "WIFI")
             ? Container(
                 height: double.infinity,
                 width: double.infinity,
