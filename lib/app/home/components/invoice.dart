@@ -27,7 +27,7 @@ class Invoice extends StatelessWidget {
               columns: [
                 DataColumn(
                   label: Text(
-                    "الكميّة النهائية",
+                    "الكميّة ",
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ),
@@ -47,7 +47,7 @@ class Invoice extends StatelessWidget {
               rows: [
                 invoiceDataRow(
                     context: context,
-                    serviceName: completeOrderResponse.orderedQuantity.toString() ?? "",
+                    serviceName: completeOrderResponse.finalQuantity.toString() ?? "",
                     quantity:  completeOrderResponse.finalPrice.toString()??"",
                     amount: completeOrderResponse.price.toString() ?? ""),
                 /*   invoiceDataRow(
