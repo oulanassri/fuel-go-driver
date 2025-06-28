@@ -309,7 +309,7 @@ class HomeController extends GetxController {
     try {
       final response = await http.post(
         Uri.parse(
-            '${APIConstants.baseUrl}${APIConstants.endPoints.completeOrder}?plateNum=${int.parse(quantity)}'),
+            '${APIConstants.baseUrl}${APIConstants.endPoints.completeOrder}?quantity=${int.parse(quantity)}'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ${UserStorage.read('token')}'
