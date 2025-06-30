@@ -48,6 +48,14 @@ class HousePendingOrderWidget extends StatelessWidget {
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   Text(
+                    "رقم الطلب :",
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  Text(
+                    pendingOrder.orderNumber ?? "",
+                    style: Theme.of(context).textTheme.labelSmall,
+                  ),
+                  Text(
                     "تارخ و وقت الطلب :",
                     style: Theme.of(context).textTheme.titleMedium,
                   ),

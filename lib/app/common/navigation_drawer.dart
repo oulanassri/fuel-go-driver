@@ -141,7 +141,7 @@ class CustomNavigationDrawer extends StatelessWidget {
       Get.toNamed(Routes.SETTINGS);
     }else if (index == 5) {
       UserStorage.delete('token');
-      Get.offAndToNamed(Routes.LOGIN);
+      Get.offAllNamed(Routes.LOGIN);
     }
   }
   String _getInitial(String name) {
