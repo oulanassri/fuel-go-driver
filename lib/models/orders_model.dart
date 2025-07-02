@@ -4,19 +4,20 @@ class OrdersModel {
   String? locationDescription;
   String? neighborhoodName;
   String? fuelTypeName;
-  String? orderedQuantity;//
-  String? price;//
-  String? finalQuantity;//
-  String? finalPrice;//
+  String? orderedQuantity;
+  String? price;
+  String? finalQuantity;
+  String? finalPrice;
   String? customerCarBrand;
-  String? customerApartmentName;//
+  String? customerApartmentName;
   String? authCode;
   String? statusName;
   String? customerName;
   String? customerPhone;
   String? driverName;
   String? driverPhone;
-  String? deliveryFee;//
+  String? deliveryFee;
+  String? centerName;
 
   OrdersModel(
       {this.date,
@@ -36,7 +37,8 @@ class OrdersModel {
         this.customerPhone,
         this.driverName,
         this.driverPhone,
-        this.deliveryFee});
+        this.deliveryFee,
+        this.centerName});
 
   OrdersModel.fromJson(Map<String, dynamic> json) {
     date = json['date'];
@@ -44,19 +46,20 @@ class OrdersModel {
     locationDescription = json['locationDescription'];
     neighborhoodName = json['neighborhoodName'];
     fuelTypeName = json['fuelTypeName'];
-    orderedQuantity = json['orderedQuantity'].toString();
+    orderedQuantity = json['orderedQuantity'];
     price = json['price'];
-    finalQuantity = json['finalQuantity'].toString();
-    finalPrice = json['finalPrice'].toString();
+    finalQuantity = json['finalQuantity'];
+    finalPrice = json['finalPrice'];
     customerCarBrand = json['customerCarBrand'];
-    customerApartmentName = json['customerApartmentName'].toString();
+    customerApartmentName = json['customerApartmentName'];
     authCode = json['authCode'];
     statusName = json['statusName'];
     customerName = json['customerName'];
     customerPhone = json['customerPhone'];
     driverName = json['driverName'];
     driverPhone = json['driverPhone'];
-    deliveryFee = json['deliveryFee'].toString();
+    deliveryFee = json['deliveryFee'];
+    centerName = json['centerName'];
   }
 
   Map<String, dynamic> toJson() {
@@ -79,6 +82,7 @@ class OrdersModel {
     data['driverName'] = this.driverName;
     data['driverPhone'] = this.driverPhone;
     data['deliveryFee'] = this.deliveryFee;
+    data['centerName'] = this.centerName;
     return data;
   }
 }

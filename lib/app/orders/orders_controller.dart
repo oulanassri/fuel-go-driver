@@ -59,6 +59,7 @@ class OrdersController extends GetxController {
               driverName:  body[i]["driverName"].toString(),
               driverPhone:  body[i]["driverPhone"].toString(),
               deliveryFee: body[i]["deliveryFee"].toString(),
+              centerName: body[i]["centerName"].toString(),
             ),
           );
         }

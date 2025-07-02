@@ -95,7 +95,22 @@ class PreviousOrder extends StatelessWidget {
                         Theme.of(context).textTheme.titleMedium,
                       ),
                       Text(
-                        ordersModel.orderedQuantity.toString() ?? "",
+                        ordersModel.finalQuantity.toString() ?? "",
+                        style: Theme.of(context).textTheme.labelSmall,
+                      ),
+                    ],
+                  )
+                      : Container(),
+                  open.value == true
+                      ? Row(
+                    children: [
+                      Text(
+                        "اسم المركز:  ",
+                        style:
+                        Theme.of(context).textTheme.titleMedium,
+                      ),
+                      Text(
+                        ordersModel.centerName.toString()=="null" ? "--":ordersModel.centerName.toString(),
                         style: Theme.of(context).textTheme.labelSmall,
                       ),
                     ],

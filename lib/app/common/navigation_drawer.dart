@@ -130,17 +130,18 @@ class CustomNavigationDrawer extends StatelessWidget {
 
   navigate(int index) {
     if (index == 0) {
-      Get.toNamed(Routes.HOME);
+      Get.offNamed(Routes.HOME);
     } else if (index == 1) {
-      Get.toNamed(Routes.ORDERS);
+      Get.offNamed(Routes.ORDERS);
     } else if (index == 2) {
-      Get.toNamed(Routes.PROFILE);
+      Get.offNamed(Routes.PROFILE);
     } else if (index == 3) {
-      Get.toNamed(Routes.LORRY);
+      Get.offNamed(Routes.LORRY);
     } else if (index == 4) {
-      Get.toNamed(Routes.SETTINGS);
+      Get.offNamed(Routes.SETTINGS);
     }else if (index == 5) {
-      UserStorage.delete('token');
+
+      UserStorage.delete("token");
       Get.offAllNamed(Routes.LOGIN);
     }
   }
