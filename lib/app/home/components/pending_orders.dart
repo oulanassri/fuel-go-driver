@@ -58,10 +58,7 @@ class PendingOrders extends StatelessWidget {
                   .textTheme
                   .titleLarge,
             ),
-            //HousePendingOrderWidget(controller: controller,),
-            //CarPendingOrderWidget(controller: controller,),
-            // HousePendingOrderWidget(controller: controller,),
-            //  CarPendingOrderWidget(controller: controller,),
+
             SingleChildScrollView(
               child: Column(
                 spacing: defaultPadding,

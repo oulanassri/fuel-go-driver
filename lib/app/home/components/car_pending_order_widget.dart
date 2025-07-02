@@ -45,14 +45,14 @@ class CarPendingOrderWidget extends StatelessWidget {
                   Text(
                     "تعبئة لسيّارة",
                     style: Theme.of(context).textTheme.titleLarge,
-                  ),Text(
+                  ), Row(children: [ Text(
                     "رقم الطلب :",
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
-                  Text(
-                    pendingOrder.orderNumber ?? "",
-                    style: Theme.of(context).textTheme.labelSmall,
-                  ), Text(
+                      Text(
+                      pendingOrder.orderNumber ?? "",
+                      style: Theme.of(context).textTheme.labelSmall,
+                    ),],), Text(
                     "تارخ و وقت الطلب :  ",
                     style: Theme.of(context).textTheme.titleMedium,
                   ),

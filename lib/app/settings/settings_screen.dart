@@ -21,15 +21,14 @@ class SettingsScreen extends GetView<SettingsController> {
       appBar: CustomAppBar(
         title: 'الإعدادات',
       ),
-      body: SingleChildScrollView(
-        child: Container(
+      body: Container(
           padding: EdgeInsets.all(defaultPadding),
           width: double.infinity,
           height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
             gradient: gradientColorBg,
           ),
-          child: Column(
+          child: SingleChildScrollView(child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             spacing: defaultPadding,
             children: [
@@ -52,8 +51,7 @@ class SettingsScreen extends GetView<SettingsController> {
                 'نأخذ أمان معلوماتك على محمل الجد ونتخذ إجراءات معقولة لحمايتها من الوصول غير المصرح به أو الاستخدام أو الكشف. يتم تشفير المعلومات الحساسة باستخدام تقنيات التشفير المناسبة.',
               ),
             ],
-          ),
-        ),
+          ),)
       ),
     );
   }
